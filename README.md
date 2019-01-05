@@ -4,13 +4,33 @@
 
 This is a list of solutions to common [recursive](https://en.wikipedia.org/wiki/Recursion#In_computer_science) or [graph traversal](https://en.wikipedia.org/wiki/Graph_traversal) problems. [Iterative](https://www.codeproject.com/Articles/21194/Iterative-vs-Recursive-Approaches) solutions are sometimes also shown (though any problem that can be solved recursively can also be solved iteratively). The purpose is to provide a grab-bag of simple **Swift** algorithms which are often useful in a variety of problem domains. 
 
-The algorithms here are presented in **Question-Answer** format, and in most cases there are a multitude of possible solutions. The solutions here are _not necessarily the most efficient_, but rather those that provide the clearest insight into how the solution is actually reached. There are also often problem-specific assumptions made that would not be safe to make in more generalized problem domains (assertions and error handling are typically omitted).
+The algorithms here are presented in **Question-Answer** format, and in most cases there are a multitude of possible solutions. The solutions here are _not necessarily the most efficient_, but rather those that provide the clearest insight into how the solution is actually reached. There are also often problem-specific assumptions made that would not be safe to make in more generalized problem domains (assertions and error handling are typically omitted). It should be noted that these solutions are presented to help understand how to approach & solve these types of problems, they should not simply be used as-is or memorized.
 
 For a more exhaustive list of specific algorithm examples see: [Swift Algorithm Club](https://github.com/raywenderlich/swift-algorithm-club).
 
-Final disclaimer: this is a work in progress. I'm mostly writing this up for my own amusement. Suggestions / contributions are welcome.
+**Final disclaimer**: this is a work in progress. I'm mostly writing this up for my own amusement. Suggestions / contributions are welcome.
 
 ---
+
+### **Problem**: Write a function to generate the Nth Fibonacci number.
+
+*Discussion*: This is a great example of how to approach writing a recursive function, since the solution is so succinct. The Nth [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number) is the sum of the previous two Fibonacci numbers, and in practice the sequence looks like this:
+
+![fibonacci](https://wikimedia.org/api/rest_v1/media/math/render/svg/ff1558cc1c547dba59ce03cf352c1662b87d10f1)
+
+So to write a recursive function we can start with the base case, `f(1)` or `f(2)`, for which we simply hardcode the return values of 1. From there we can build upon that by recursing to find `f(n)`, by simply returning the sum of `f(n-2)` and `f(n-1)`.
+
+*Notes*: For this example, N <= 0 is considered invalid, though we omit the related guard/assert for the sake of brevity.
+
+*Recursive solution*
+```swift
+func fib(_ n: Int) -> Int {
+    // Base case, when N == 1 or N == 2:
+    if n <= 2 { return 1 }
+    // For any other N, we return the sum of the previous two numbers:
+    return fib(n-2) + fib(n-1)
+}
+```
 
 ### **Problem**: Find all possible susbtrings of a string.
 
