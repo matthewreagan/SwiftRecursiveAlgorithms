@@ -1,4 +1,4 @@
-## Swift Graph Traversal & Recursive Algorithms
+# Swift Graph Traversal & Recursive Algorithms
 
 **Discussion**
 ---
@@ -411,3 +411,14 @@ func calculateWords(_ phoneNumber: String, numeral: Int) {
 
 calculateWords(number, numeral: 0)
 ```
+
+---
+
+## Author
+
+**Matt Reagan** - Website: [http://sound-of-silence.com/](http://sound-of-silence.com/) - Twitter: [@hmblebee](https://twitter.com/hmblebee)
+
+
+## License
+
+The code examples here are for instructive purposes only. All content herein is released however under the GNU General Public License, Version 2.
