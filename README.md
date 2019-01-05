@@ -1,12 +1,10 @@
-# Swift Graph Traversal & Recursive Algorithms
+# Swift Graph Traversal & Recursive Algorithms ![swiftlogo](https://developer.apple.com/assets/elements/icons/swift/swift-64x64.png)
 
-**Discussion**
----
-This is a list of solutions to common recursive or graph traversal problems. Iterative solutions are sometimes also shown (though any problem that can be solved recursively can also be solved iteratively). The purpose is to provide a grab-bag of simple Swift algorithms which are often useful in a variety of problem domains. 
+This is a list of solutions to common [recursive](https://en.wikipedia.org/wiki/Recursion#In_computer_science) or [graph traversal](https://en.wikipedia.org/wiki/Graph_traversal) problems. [Iterative](https://www.codeproject.com/Articles/21194/Iterative-vs-Recursive-Approaches) solutions are sometimes also shown (though any problem that can be solved recursively can also be solved iteratively). The purpose is to provide a grab-bag of simple **Swift** algorithms which are often useful in a variety of problem domains. 
 
-The algorithms here are presented in question-answer format, and in most cases there are a multitude of possible solutions. The solutions here are not necessarily the most efficient or performant, but rather those that provide the clearest insight into how the solution is actually reached. There are also often problem-specific assumptions made that would not be safe to make in more generalized problem domains (for most examples assertions and error handling are omitted).
+The algorithms here are presented in **Question-Answer** format, and in most cases there are a multitude of possible solutions. The solutions here are _not necessarily the most efficient_, but rather those that provide the clearest insight into how the solution is actually reached. There are also often problem-specific assumptions made that would not be safe to make in more generalized problem domains (assertions and error handling are typically omitted).
 
-For a more exhaustive list of specific algorithm examples see [Swift Algorithm Club](https://github.com/raywenderlich/swift-algorithm-club).
+For a more exhaustive list of specific algorithm examples see: [Swift Algorithm Club](https://github.com/raywenderlich/swift-algorithm-club).
 
 Final disclaimer: this is a work in progress. I'm mostly writing this up for my own amusement. Suggestions / contributions are welcome.
 
