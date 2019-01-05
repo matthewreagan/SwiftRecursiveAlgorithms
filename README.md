@@ -87,6 +87,118 @@ print("Total: \(permutations.count)")
 Total: 6
 ```
 
+### **Problem**: Find the number of ways 8 queens can be placed on a chess board such that no queen attacks another
+
+*Discussion*: This is the standard variant of the [N Queens Problem](https://en.wikipedia.org/wiki/Eight_queens_puzzle), and amounts to finding all of the possible positions 8 queens can be placed such that no queen shares the same column, row, or diagonal as another. As with other problems, solving this is much easier if you take a moment to identify assumptions or shortcuts that can be made safely within the problem space. Approaching this with the mindset that any queen could occupy any arbitrary position in the board can become overwhelming, and is unnecessary given the rules we're presented.
+
+Because a chess board is an 8x8 grid, and we know that only 1 queen can ever be placed in a single column, we can simplify both our data structures and code by working under these assumptions. Rather than store the arbitrary position of a given queen (as an `X,Y` pair for example), we can simply use a data structure that represents a particular row for a given column (an `Array<Int>`, with 8 values).
+
+*Notes*: This solution is an example of a [Backtracking algorithm](https://en.wikipedia.org/wiki/Backtracking). Many of the other problems here are also solved similarly: by using the recursive function stack as a means to explore a tree of possibilities, and then _backtracking_ once we reach an invalid combination or deadend. As with all backtracking algorithms, we take advantage of our ability to compute a _partial candidate solution_. This simply means that as we explore each possible combination, if we reach a point where we know we can't place the Nth queen, then any subsequent queens in that tree of possibilities can be ignored (since the entire subtree is invalid).
+
+*Recursive solution*
+```swift
+var board: [Int] = Array(repeating: 0, count: 8)
+var totalPermutations = 0
+
+func printBoard(_ b: Array<Int>) {
+    var boardString = ""
+    for _ in 0..<8 { boardString += "________\n" }
+    for (col, row) in b.enumerated() {
+        let x = col
+        let y = row
+        let charIndex = (y * 9) + x
+        let index = boardString.index(boardString.startIndex, offsetBy: charIndex)
+        boardString.remove(at: index)
+        boardString.insert("Q", at: index)
+    }
+    print("\(boardString)")
+}
+
+func canPlace(at pos: (x: Int, y: Int)) -> Bool {
+	
+    // We know when we're checking the placement of
+    // X,Y we've already successfully placed queens
+    // up to the current column, so we only need to
+    // check those previously-placed queens
+    
+    let thisQueenCol = pos.x
+    let thisQueenRow = pos.y
+    
+    if thisQueenCol == 0 {
+        // The first queen (in first column) can always be placed in any row
+        return true
+    }
+    
+    // We check the previously-placed queens up to pos.X
+    for (queenCol, queenRow) in board.prefix(thisQueenCol).enumerated() {
+        // If this previously-placed queen is in the same row as our
+        // current proposed queen (its Y), the placement is invalid
+        if queenRow == thisQueenRow {
+            return false
+        }
+        
+        // If this previously-placed queen is in the same diagonal
+        // as our current proposed queen, also invalid
+        let dx = queenCol - thisQueenCol
+        let dy = queenRow - thisQueenRow
+        
+        if dx.magnitude == dy.magnitude {
+            return false
+        }
+    }
+    
+    return true
+}
+
+// We're going to iterate over every possible row (Y)
+// in each column (X) that a queen could be placed,
+// recursing down through the tree of possibilities
+// for each subsequent column
+
+func placeQueen(at col: Int) {
+	
+    // Handle base case. If we're at column 8, we've placed
+    // all 8 queens successfully.
+	
+    if col == 8 {
+        totalPermutations += 1
+        printBoard(board)
+    } else {
+		
+		// For each Y in this column, attempt to place
+		// the queen (by checking the previously-placed)
+		// queens in earlier columns. Because our recursive
+		// algorithm explores only a single board layout at
+		// a time, and in order, we can simply reuse our board
+		// variable without worrying about clearing it etc.
+		
+        for y in 0..<8 {
+            if canPlace(at: (x: col, y: y)) {
+                board[col] = y
+                placeQueen(at: col + 1)
+            }
+        }
+    }
+}
+
+placeQueen(at: 0)
+print("Total permutations: \(totalPermutations)")
+```
+
+*Example output (only 1 printed board shown)*:
+```
+__Q_____
+_____Q__
+___Q____
+_Q______
+_______Q
+____Q___
+______Q_
+Q_______
+
+Total permutations: 92
+```
+
 ### **Problem**: Implement a paint bucket / fill algorithm.
 
 *Discussion*: This can be thought of as a basic graph / tree traversal. We can think of the pixel the user clicks on as the starting parent node, and each surrounding node as a child. We continue to explore all of the children's children and set them to the new color or value as necessary.
@@ -226,116 +338,6 @@ X•XX•••XX•XX
 X•XXX••X••XX
 X•XX••••XX•X
 XXXX•••••••X
-```
-
-### **Problem**: Find the number of ways 8 queens can be placed on a chess board such that no queen attacks another
-
-*Discussion*: This is the standard variant of the [N Queens Problem](https://en.wikipedia.org/wiki/Eight_queens_puzzle), and amounts to finding all of the possible positions 8 queens can be placed such that no queen shares the same column, row, or diagonal as another. As with other problems, solving this is much easier if you take a moment to look for assumptions or shortcuts that can be made safely within the problem space. Approaching this while thinking that a queen could occupy any arbitrary position in the board can become overwhelming, and is unnecessary given the rules we're presented.
-
-Because a chess board is an 8x8 grid, and we know that only 1 queen can ever be placed in a single column, we can simplify both our data structures and code by working under these assumptions. Rather than store the arbitrary position of a given queen, for example, we can simply use a data structure that represents a particular row for a given column (an `Array<Int>` with 8 values).
-
-*Recursive solution*
-```swift
-var board: [Int] = Array(repeating: 0, count: 8)
-var totalPermutations = 0
-
-func printBoard(_ b: Array<Int>) {
-    var boardString = ""
-    for _ in 0..<8 { boardString += "________\n" }
-    for (col, row) in b.enumerated() {
-        let x = col
-        let y = row
-        let charIndex = (y * 9) + x
-        let index = boardString.index(boardString.startIndex, offsetBy: charIndex)
-        boardString.remove(at: index)
-        boardString.insert("Q", at: index)
-    }
-    print("\(boardString)")
-}
-
-func canPlace(at pos: (x: Int, y: Int)) -> Bool {
-	
-    // We know when we're checking the placement of
-    // X,Y we've already successfully placed queens
-    // up to the current column, so we only need to
-    // check those previously-placed queens
-    
-    let thisQueenCol = pos.x
-    let thisQueenRow = pos.y
-    
-    if thisQueenCol == 0 {
-        // The first queen (in first column) can always be placed in any row
-        return true
-    }
-    
-    // We check the previously-placed queens up to pos.X
-    for (queenCol, queenRow) in board.prefix(thisQueenCol).enumerated() {
-        // If this previously-placed queen is in the same row as our
-        // current proposed queen (its Y), the placement is invalid
-        if queenRow == thisQueenRow {
-            return false
-        }
-        
-        // If this previously-placed queen is in the same diagonal
-        // as our current proposed queen, also invalid
-        let dx = queenCol - thisQueenCol
-        let dy = queenRow - thisQueenRow
-        
-        if dx.magnitude == dy.magnitude {
-            return false
-        }
-    }
-    
-    return true
-}
-
-// We're going to iterate over every possible row (Y)
-// in each column (X) that a queen could be placed,
-// recursing down through the tree of possibilities
-// for each subsequent column
-
-func placeQueen(at col: Int) {
-	
-    // Handle base case. If we're at column 8, we've placed
-    // all 8 queens successfully.
-	
-    if col == 8 {
-        totalPermutations += 1
-        printBoard(board)
-    } else {
-		
-		// For each Y in this column, attempt to place
-		// the queen (by checking the previously-placed)
-		// queens in earlier columns. Because our recursive
-		// algorithm explores only a single board layout at
-		// a time, and in order, we can simply reuse our board
-		// variable without worrying about clearing it etc.
-		
-        for y in 0..<8 {
-            if canPlace(at: (x: col, y: y)) {
-                board[col] = y
-                placeQueen(at: col + 1)
-            }
-        }
-    }
-}
-
-placeQueen(at: 0)
-print("Total permutations: \(totalPermutations)")
-```
-
-*Example output (only 1 printed board shown)*:
-```
-__Q_____
-_____Q__
-___Q____
-_Q______
-_______Q
-____Q___
-______Q_
-Q_______
-
-Total permutations: 92
 ```
 
 ### **Problem**: Calculate all of the possible combinations of change which can total $N using ∞ quarters, dimes, nickels, and pennies
