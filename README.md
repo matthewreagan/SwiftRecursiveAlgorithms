@@ -1,4 +1,6 @@
-# Swift Graph Traversal & Recursive Algorithms ![swiftlogo](https://developer.apple.com/assets/elements/icons/swift/swift-64x64.png)
+<p align="center"><img src="https://developer.apple.com/assets/elements/icons/swift/swift-64x64.png"/></p>
+
+# Swift Graph Traversal & Recursive Algorithms
 
 This is a list of solutions to common [recursive](https://en.wikipedia.org/wiki/Recursion#In_computer_science) or [graph traversal](https://en.wikipedia.org/wiki/Graph_traversal) problems. [Iterative](https://www.codeproject.com/Articles/21194/Iterative-vs-Recursive-Approaches) solutions are sometimes also shown (though any problem that can be solved recursively can also be solved iteratively). The purpose is to provide a grab-bag of simple **Swift** algorithms which are often useful in a variety of problem domains. 
 
