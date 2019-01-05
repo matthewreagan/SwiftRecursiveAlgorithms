@@ -208,7 +208,7 @@ XXXX•••••••X
 
 *Discussion*: This is the standard variant of the [N Queens Problem](https://en.wikipedia.org/wiki/Eight_queens_puzzle), and amounts to finding all of the possible positions 8 queens can be placed such that no queen shares the same column, row, or diagonal as another. As with other problems, solving this is much easier if you take a moment to look for assumptions or shortcuts that can be made safely within the problem space. Approaching this while thinking that a queen could occupy any arbitrary position in the board can become overwhelming, and is unnecessary given the rules we're presented.
 
-Because a chess board is an 8x8 grid, and we know that only 1 queen can ever be placed in a single column, we can simplify both our data structures and code by working under these assumptions. Rather than store the arbitrary position of a given queen, for example, we can simply use a data structure that represents a particular row for a given column.
+Because a chess board is an 8x8 grid, and we know that only 1 queen can ever be placed in a single column, we can simplify both our data structures and code by working under these assumptions. Rather than store the arbitrary position of a given queen, for example, we can simply use a data structure that represents a particular row for a given column (an `Array<Int>` with 8 values).
 
 *Recursive solution*
 ```swift
