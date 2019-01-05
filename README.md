@@ -410,6 +410,76 @@ func calculateWords(_ phoneNumber: String, numeral: Int) {
 calculateWords(number, numeral: 0)
 ```
 
+### **Problem**:  Solve Boggle (find all words in a grid of letters)
+
+*Discussion*: This problem can be thought of similarly to the paint-fill algorithm. We iterate over each tile in the grid to act as the starting letter, and then traverse each surrounding child. For each child, we must then traverse all sub-children, and so on. One of the key things to observe here is that we must have a visited (or 'closed') list of some kind, so that we can avoid revisiting tiles we've already used.
+
+*Notes*: The code below omits the dictionary lookup function (`isValidWord()`), which can be implemented in whatever way is appropriate for the target platform.
+
+*Recursive solution*
+```swift
+let grid = [["A", "B", "X"],
+            ["E", "L", "T"],
+            ["D", "Z", "U"]]
+let gridSize = 3
+
+struct Pos: Equatable {
+    let x,y: Int
+    static func == (lhs: Pos, rhs: Pos) -> Bool { return lhs.x == rhs.x && lhs.y == rhs.y }
+}
+
+// We check all possible paths, considering each tile as a valid starting point
+for x in 0..<gridSize {
+    for y in 0..<gridSize {
+        let startingLetter = grid[x][y]
+        
+		// Here is the function which recurses through the graph, we 
+		// pass a position, the current word, and a list of visited tiles.
+		// The function iterates over all of the neighboring tiles, and
+		// if the tile hasn't already been visited, we check if it's a valid
+		// word and continue exploring the path from that tile
+		
+        func recurse(_ x: Int, _ y: Int, word: String, visited: [Pos]) {
+            for xi in -1...1 {
+                for yi in -1...1 {
+                    guard xi != 0 || yi != 0 else { continue }
+                    let nx = x + xi
+                    let ny = y + yi
+                    guard nx >= 0 && ny >= 0 && nx < gridSize && ny < gridSize else { continue }
+                    guard !visited.contains(Pos(x: nx, y: ny)) else { continue }
+                    
+                    let newWord = word + grid[nx][ny]
+                    if isValidWord(newWord) {
+                        print("\(newWord)")
+                    }
+                    
+                    recurse(nx, ny,
+                            word: newWord,
+                            visited: visited + CollectionOfOne(Pos(x: nx, y: ny)))
+                }
+            }
+        }
+        
+        recurse(x, y, word: startingLetter, visited: [Pos(x: x, y: y)])
+    }
+}
+```
+
+*Output*: 
+```
+ABLE
+ALE
+BALE
+BELT
+BED
+BLED
+LAB
+LED
+DEAL
+DEALT
+ZEAL
+```
+
 ---
 
 ## Author
