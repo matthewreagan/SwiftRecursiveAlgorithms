@@ -100,20 +100,6 @@ Because a chess board is an 8x8 grid, and we know that only 1 queen can ever be 
 var board: [Int] = Array(repeating: 0, count: 8)
 var totalPermutations = 0
 
-func printBoard(_ b: Array<Int>) {
-    var boardString = ""
-    for _ in 0..<8 { boardString += "________\n" }
-    for (col, row) in b.enumerated() {
-        let x = col
-        let y = row
-        let charIndex = (y * 9) + x
-        let index = boardString.index(boardString.startIndex, offsetBy: charIndex)
-        boardString.remove(at: index)
-        boardString.insert("Q", at: index)
-    }
-    print("\(boardString)")
-}
-
 func canPlace(at pos: (x: Int, y: Int)) -> Bool {
 	
     // We know when we're checking the placement of
