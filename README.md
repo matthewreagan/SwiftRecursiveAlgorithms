@@ -392,8 +392,6 @@ func calculateWords(_ phoneNumber: String, numeral: Int) {
     // Base case: if we have reached the end of our number, print the word
     if numeral >= 7 {
         print("\(word)")
-        totalWords.append(word)
-        uniqueWords.insert(word)
         return
     }
     
