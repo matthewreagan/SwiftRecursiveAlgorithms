@@ -2,9 +2,9 @@
 
 # Swift Graph Traversal & Recursive Algorithms
 
-This is a list of solutions to common [recursive](https://en.wikipedia.org/wiki/Recursion#In_computer_science) or [graph traversal](https://en.wikipedia.org/wiki/Graph_traversal) problems. [Iterative](https://www.codeproject.com/Articles/21194/Iterative-vs-Recursive-Approaches) solutions are sometimes also shown (though any problem that can be solved recursively can also be solved iteratively). The purpose is to provide a grab-bag of simple **Swift** algorithms which are often useful in a variety of problem domains. 
+This is a list of solutions to common [recursive](https://en.wikipedia.org/wiki/Recursion#In_computer_science) or [graph traversal](https://en.wikipedia.org/wiki/Graph_traversal) problems. [Iterative](https://www.codeproject.com/Articles/21194/Iterative-vs-Recursive-Approaches) solutions are sometimes also shown (though any problem that can be solved recursively can also be solved iteratively). The purpose is to assist in understanding how to approach and solve these types of problems (the solutions should not be memorized or simply copy-pasted).
 
-The algorithms here are presented in **Question-Answer** format, and in most cases there are a multitude of possible solutions. The solutions here are _not necessarily the most efficient_, but rather those that provide the clearest insight into how the solution is actually reached. There are also often problem-specific assumptions made that would not be safe to make in more generalized problem domains (assertions and error handling are typically omitted). It should be noted that these solutions are presented to help understand how to approach & solve these types of problems, they should not simply be used as-is or memorized.
+The algorithms here are presented in **Question-Answer** format, and in most cases there are a multitude of possible solutions. The solutions here are _not necessarily the most efficient_, but rather those that provide the clearest insight into how the solution is actually reached. There are also often problem-specific assumptions made that would not be safe to make in more generalized problem domains (assertions and error handling are typically omitted).
 
 For a more exhaustive list of specific algorithm examples see: [Swift Algorithm Club](https://github.com/raywenderlich/swift-algorithm-club).
 
@@ -36,7 +36,7 @@ func fib(_ n: Int) -> Int {
 
 *Discussion*: As is frequently the case, one of the most important aspects of this simple problem is recognizing patterns in how the subproblem is structured. We can start with the simplest case, string 'ab', in which we have 2 possible permutations: 'ab' and 'ba'. Note that we could think of this as taking 'a', and placing it in each possible position around the rest of the string, 'b'. If we then try 'xab', we see that the permutations are 'xab', 'axb', 'abx', 'xba', 'bxa', 'bax'. Essentially we're computing the permutations of the smallest substring 'ab', and then simply inserting the preceeding character into each possible position. From this we can formulate a recursive solution. **This is a good example of a general approach for writing a recursive algorithm: start by solving the simplest scenario or base case first, and then build off of that.**
 
-*Notes*: The number of possible permutations is N! (factorial), where N is the number of characters in the string.
+*Notes*: The number of possible permutations is N! ([factorial](https://en.wikipedia.org/wiki/Factorial)), where N is the number of characters in the string.
 
 *Caveats*: This solution does not take into consideration the uniqueness of each letter in the string, e.g. 'aa' will output with two equivalent permutations ('aa', 'aa').
 
@@ -81,7 +81,11 @@ func permu(_ input: String) -> [String] {
 let permutations = permu("abc")
 print("Total: \(permutations.count)")
 ```
-
+*Output*: 
+```
+["abc", "bac", "bca", "acb", "cab", "cba"]
+Total: 6
+```
 
 ### **Problem**: Implement a paint bucket / fill algorithm.
 
