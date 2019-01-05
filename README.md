@@ -316,7 +316,7 @@ Total permutations: 92
 
 ### **Problem**: Calculate all of the possible combinations of change which can total $N using ∞ quarters, dimes, nickels, and pennies
 
-*Discussion*: This problem can be understood slightly easier by reading through the iterative solution below which hardcodes each for the individual coin denominations. While not the best approach, it helps illustrate what we're actually doing: starting with the largest coin, we branch on each number of coins that could fit into our total, and then for the remaining amount we compute the number of next-largest coins that would fit, further branching on each of those possibilities, and so on. The recursive solution below is more flexible since it can use any arbitrary combination of coins.
+*Discussion*: This problem can be understood slightly easier by reading through the iterative solution below which hardcodes each of the individual coin denominations. While not the best approach, it helps illustrate what we're actually doing: starting with the largest coin, we branch on each number of coins that could fit into our total, and then for the remaining amount we compute the number of next-largest coins that would fit, further branching on each of those possibilities, and so on. The recursive solution below is more flexible since it can use any arbitrary combination of coins.
 
 *Iterative example*
 ```swift
