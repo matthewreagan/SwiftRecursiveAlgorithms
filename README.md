@@ -14,7 +14,7 @@ For a more exhaustive list of specific algorithm examples see: [Swift Algorithm 
 - [Fibonacci Sequence](#fibonacci)
 - [String Permutations](#string-permutations)
 - [N-Queens Problem](#n-queens-problem)
-- [N Parentheses Pairs](#n-parentheses-pairs)
+- [N-Parentheses Pairs](#n-parentheses-pairs)
 - [Paint Fill Algorithm](#paint-fill-algorithm)
 - [Change For A Dollar](#change-for-a-dollar)
 - [Alphabetic Phone Number](#alphabetic-phone-number)
