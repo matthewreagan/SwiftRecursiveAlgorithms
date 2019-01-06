@@ -10,8 +10,19 @@ For a more exhaustive list of specific algorithm examples see: [Swift Algorithm 
 
 **Final disclaimer**: this is a work in progress. I'm mostly writing this up for my own amusement. Suggestions / contributions are welcome.
 
+#### Problems & Solutions
+- [Fibonacci Sequence](#fibonacci)
+- [String Permutations](#string-permutations)
+- [N-Queens Problem](#n-queens-problem)
+- [N Parentheses Pairs](#n-parentheses-pairs)
+- [Paint Fill Algorithm](#paint-fill-algorithm)
+- [Change For A Dollar](#change-for-a-dollar)
+- [Alphabetic Phone Number](#alphabetic-phone-number)
+- [Boggle](#boggle)
+
 ---
 
+## Fibonacci
 ### **Problem**: Write a function to generate the Nth Fibonacci number.
 
 *Discussion*: This is a great example of how to approach writing a recursive function, since the solution is so succinct. The Nth [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number) is the sum of the previous two Fibonacci numbers, and in practice the sequence looks like this:
@@ -32,7 +43,8 @@ func fib(_ n: Int) -> Int {
 }
 ```
 
-### **Problem**: Find all possible susbtrings of a string.
+## String Permutations
+### **Problem**: Find all possible permutations of a string.
 
 *Discussion*: As is frequently the case, one of the most important aspects of this simple problem is recognizing patterns in how the subproblem is structured. We can start with the simplest case, string 'ab', in which we have 2 possible permutations: 'ab' and 'ba'. Note that we could think of this as taking 'a', and placing it in each possible position around the rest of the string, 'b'. If we then try 'xab', we see that the permutations are 'xab', 'axb', 'abx', 'xba', 'bxa', 'bax'. Essentially we're computing the permutations of the smallest substring 'ab', and then simply inserting the preceeding character into each possible position. From this we can formulate a recursive solution. **This is a good example of a general approach for writing a recursive algorithm: start by solving the simplest scenario or base case first, and then build off of that.**
 
@@ -86,7 +98,7 @@ print("Total: \(permutations.count)")
 ["abc", "bac", "bca", "acb", "cab", "cba"]
 Total: 6
 ```
-
+## N Queens Problem
 ### **Problem**: Find the number of ways 8 queens can be placed on a chess board such that no queen attacks another
 
 *Discussion*: This is the standard variant of the [N Queens Problem](https://en.wikipedia.org/wiki/Eight_queens_puzzle), and amounts to finding all of the possible positions 8 queens can be placed such that no queen shares the same column, row, or diagonal as another. As with other problems, solving this is much easier if you take a moment to identify assumptions or shortcuts that can be made safely within the problem space. Approaching this with the mindset that any queen could occupy any arbitrary position in the board can become overwhelming, and is unnecessary given the rules we're presented.
@@ -185,6 +197,7 @@ Q_______
 Total permutations: 92
 ```
 
+## N Parentheses Pairs
 ### **Problem**: Find all valid combinations of N pairs of parentheses.
 
 *Discussion*: This is another problem which rewards us for taking a moment in the beginning to understand what assumptions can be made. When given N pairs of parentheses, we need to find all valid combinations. So for example, when N is 2 the valid possibilities would be `()()` and `(())`. From these basic rules we can notice a few key takeaways:
@@ -282,6 +295,7 @@ recurse(0, available: (open: numPairs, closed: numPairs))
 ()()()
 ```
 
+## Paint Fill Algorithm
 ### **Problem**: Implement a paint bucket / fill algorithm.
 
 *Discussion*: This can be thought of as a basic graph / tree traversal. We can think of the pixel the user clicks on as the starting parent node, and each surrounding node as a child. We continue to explore all of the children's children and set them to the new color or value as necessary.
@@ -423,6 +437,7 @@ X•XX••••XX•X
 XXXX•••••••X
 ```
 
+## Change For A Dollar
 ### **Problem**: Calculate all of the possible combinations of change which can total $N using ∞ quarters, dimes, nickels, and pennies
 
 *Discussion*: This problem can be understood slightly easier by reading through the iterative solution below which hardcodes each of the individual coin denominations. While not the best approach, it helps illustrate what we're actually doing: starting with the largest coin, we branch on each number of coins that could fit into our total, and then for the remaining amount we compute the number of next-largest coins that would fit, further branching on each of those possibilities, and so on. The recursive solution below is more flexible since it can use any arbitrary combination of coins.
@@ -480,6 +495,7 @@ countChangeRecursive(targetTotal, denomination: denominations[0], previousTotal:
 print ("Total permutations: \(totalPermutations)")
 ```
 
+## Alphabetic Phone Number
 ### **Question**: Find all letter combinations for a 7 digit phone number
 
 *Discussion*: Given a standard 7-digit phone number, calculate all the possible word combinations that could be formed using the standard letters on a telephone numeric pad. 
@@ -519,6 +535,7 @@ func calculateWords(_ phoneNumber: String, numeral: Int) {
 calculateWords(number, numeral: 0)
 ```
 
+## Boggle
 ### **Problem**:  Solve Boggle (find all words in a grid of letters)
 
 *Discussion*: This problem can be thought of similarly to the paint-fill algorithm. We iterate over each tile in the grid to act as the starting letter, and then traverse each surrounding child. For each child, we must then traverse all sub-children, and so on. One of the key things to observe here is that we must have a visited (or 'closed') list of some kind, so that we can avoid revisiting tiles we've already used.
