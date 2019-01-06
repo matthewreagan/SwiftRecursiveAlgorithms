@@ -185,6 +185,103 @@ Q_______
 Total permutations: 92
 ```
 
+### **Problem**: Find all valid combinations of N pairs of parentheses.
+
+*Discussion*: This is another problem which rewards us for taking a moment in the beginning to understand what assumptions can be made. When given N pairs of parentheses, we need to find all valid combinations. So for example, when N is 2 the valid possibilities would be `()()` and `(())`. From these basic rules we can notice a few key takeaways:
+
+1. A valid combo will be a string of length `N * 2`
+2. We'll need a way to test _partial candidate solutions_ and valid combos
+3. We have a limited number of open and closed parentheses. Depending on which we place early on, we may run out one or the other, limiting our choices
+
+From these rules we can see that a recursive backtracking algorithm will allow us to find all possbilities. We iterate over each position in the string, trying **both** an open and closed parenthesis if possible. (If we've used up all of one, we obviously can only try the other.) As we're testing each possible placement in the string, we can check the validity.
+
+How do we check for a valid combo? One straightforward way is to ascribe a positive and negative value to open `(` and closed `)` parentheses, respectively. We scan our string, adding 1 for each `(` and -1 for each `)`. If we ever find that our sum has gone below zero, we know we have an invalid combo. We can test this out in practice by noticing what the sums would be for various valid and invalid combinations tested in this way:
+
+```
+((())) = +1 +1 +1 -1 -1 -1 = 0
+()()() = +1 -1 +1 -1 +1 -1 = 0
+())(() = +1 -1 -1    _Our sum is < 0, combo is invalid_
+)))((( = -1 _Our sum is < 0, combo is invalid_
+```
+
+Now we can write up a fairly simple recursive algorithm which tests each possible `)` or `(` in each position. Note that each time we recurse for a new branch of possibilities, we keep track of the available number of `)` and `(` to make sure we don't overuse one or the other.
+
+*Recursive solution*
+```swift
+let numPairs = 3
+let strLength = numPairs * 2
+var str = String(repeating: " ", count: strLength)
+
+func isValid<T: StringProtocol>(_ str: T) -> Bool {
+    var sum = 0
+    for c in str {
+        if c == "(" { sum += 1 }
+        else if c == ")" { sum -= 1 }
+        if sum < 0 { return false }
+    }
+    return true
+}
+
+func recurse(_ index: Int, available: (open: Int, closed: Int)) {
+    
+    // Base case, if we've reached the end of the string
+    // (or we've run out of both open / closed parentheses,
+    // which should always occur simultaneously)
+    
+    if index >= strLength {
+        if isValid(str) {
+	    // Success
+            print("\(str)")
+        }
+    } else {
+        
+        // Here is where we recurse. We try both an open
+        // and closed parenthesis in this position (if available).
+        
+        let open = available.open
+        let closed = available.closed
+        let charIndex = str.index(str.startIndex, offsetBy: index)
+	
+	// Note that in both of the checks below, we test only
+	// the prefix portion of our partial candidate solution
+	// up to the current index, since we haven't yet placed
+	// any parentheses beyond that (though because we're
+	// reusing a single string, the actual string data may
+	// have other '(' or ')' characters in it from previous
+	// attempts)
+        
+        if open > 0 {
+            str.remove(at: charIndex)
+            str.insert("(", at: charIndex)
+            
+            if isValid(str.prefix(index)) {
+                recurse(index + 1, available: (open: open - 1, closed: closed))
+            }
+        }
+        
+        if closed > 0 {
+            str.remove(at: charIndex)
+            str.insert(")", at: charIndex)
+            
+            if isValid(str.prefix(index)) {
+                recurse(index + 1, available: (open: open, closed: closed - 1))
+            }
+        }
+    }
+}
+
+recurse(0, available: (open: numPairs, closed: numPairs))
+```
+
+*Example output (N = 3)*:
+```
+((()))
+(()())
+(())()
+()(())
+()()()
+```
+
 ### **Problem**: Implement a paint bucket / fill algorithm.
 
 *Discussion*: This can be thought of as a basic graph / tree traversal. We can think of the pixel the user clicks on as the starting parent node, and each surrounding node as a child. We continue to explore all of the children's children and set them to the new color or value as necessary.
