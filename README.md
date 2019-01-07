@@ -15,6 +15,7 @@ For a more exhaustive list of specific algorithm examples see: [Swift Algorithm 
 - [String Permutations](#string-permutations)
 - [N-Queens Problem](#n-queens-problem)
 - [N-Parentheses Pairs](#n-parentheses-pairs)
+- [Recursive atoi](#recursive-atoi)
 - [Paint Fill Algorithm](#paint-fill-algorithm)
 - [Change For A Dollar](#change-for-a-dollar)
 - [Alphabetic Phone Number](#alphabetic-phone-number)
@@ -297,6 +298,48 @@ recurse(0, available: (open: numPairs, closed: numPairs))
 (())()
 ()(())
 ()()()
+```
+## Recursive atoi
+### **Problem**: Write a recurisve implementation of atoi()
+
+*Discussion*: `atoi()` takes a string and converts it to an integer. As with our previous problems, it's helpful to begin by identifying the key subproblem, or identifying the base case, and building from there. We can see that if we have a single character string `"5"`, conversion is quite simple: we get the numeric character value (in whatever way is approrpriate for the implementation) and convert it to an equivalent `Int`, so in this example we take the ASCII value of `"5"` which is 53, and subtract 48 (since the range of ASCII numeric values we're interested in is 48-57, inclusive).
+
+If we have a 2 character string `"25"`, we see where our recursion comes in. We need to recurse over each character in the string, and continually add to our resulting `Int` the numeric value of the character, multiplied by `10 ^ P` where P is the index in the string. So our function should ultimately yield:
+
+`2 * (10 ^ 1) + 5 * (10 ^ 0) = 25`
+
+*Notes*: The solution below omits error checking for unexpected / non-numeric characters.
+
+*Recursive solution*
+```swift
+func myAtoi(_ str: String,
+            index: Int = 0,
+            sum: Int = 0) -> Int {
+    
+    // Grab the character at `index` and convert it to
+    // an integer based on the ASCII value. (Note that
+    // we don't do any extensive error checking here for
+    // the sake of simplicity, a real implementation would
+    // need to be more robust.)
+    
+    let place = str.count - index - 1
+    let c = str[str.index(str.startIndex, offsetBy: index)]
+    let asciiValue = Int(c.unicodeScalars.first!.value)
+    guard asciiValue >= 48 && asciiValue <= 57 else { return 0 }
+    let intValue = (asciiValue - 48) * Int(pow(10.0, Double(place)))
+    
+    // Base case, last digit:
+    if place == 0 {
+        return intValue
+    } else {
+        // Here we recurse, adding this digit's value to our total
+        // sum and then continuing for the next character as needed.
+        
+        return sum + intValue + myAtoi(str, index: index + 1, sum: sum)
+    }
+}
+
+let x = myAtoi("1042")
 ```
 
 ## Paint Fill Algorithm
