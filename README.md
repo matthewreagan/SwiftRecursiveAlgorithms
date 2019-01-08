@@ -347,7 +347,7 @@ let x = myAtoi("1042")
 
 *Discussion*: This can be thought of as a basic graph / tree traversal. We can think of the pixel the user clicks on as the starting parent node, and each surrounding node as a child. We continue to explore all of the children's children and set them to the new color or value as necessary.
 
-*Notes*: For the purposes of this demo code we assume we're filling any ' ' spaces (pixels) in our character grid with '•'. This solution allows diagonal movements, but that could be changed easily with an additional check of our x/y neighbor iteration.
+*Notes*: For the purposes of this demo code we assume we're filling any ' ' spaces (pixels) in our character grid with '•'. This solution allows diagonal movements, but that could be changed easily with an additional check of our x/y neighbor iteration. The `pixel()`, `setPixel()`, and `printPixels()` functions have been omitted since they're fairly basic and implementation-specific.
 
 *Recursive solution*
 ```swift
@@ -358,37 +358,8 @@ var pixels = ["XXXXXXXXXXXX",
               "X XXX  X  XX",
               "X XX    XX X",
               "XXXX       X"]
-
-extension Array where Element == String {
-    func printPixels() {
-        var newStr = ""
-        for str in self {
-            newStr += (str + "\n")
-        }
-        print("\(newStr)")
-    }
-}
-
-let gridWidth = 12
-let gridHeight = 7
-
-struct Pos {
-    let x,y: Int
-}
-
-func pixel(at pos: Pos) -> Character {
-    let row = pixels[pos.y]
-    let index = row.index(row.startIndex, offsetBy: pos.x)
-    return row[index]
-}
-
-func setPixel(at pos: Pos, to char: Character) {
-    var row = pixels[pos.y]
-    let index = row.index(row.startIndex, offsetBy: pos.x)
-    row.remove(at: index)
-    row.insert(char, at: index)
-    pixels[pos.y] = row
-}
+let gridWidth = 12; let gridHeight = 7
+struct Pos { let x,y: Int }
 
 func notOutOfBounds(_ p: Pos) -> Bool {
     return p.x >= 0 &&
